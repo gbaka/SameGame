@@ -27,7 +27,7 @@ public:
 	void SetupBoard()  { m_board.SetupBoard();        }
 	int GetWidth()     { return m_board.GetWidth();   }
 	int GetHeight()    { return m_board.GetHeight();  }
-	int GetColumns()   { return m_board.GetColumns(); }
+	int GetCols()      { return m_board.GetCols(); }
 	int GetRows()      { return m_board.GetRows();    }
 	void DeleteBoard() { m_board.DeleteBoard();       }
 

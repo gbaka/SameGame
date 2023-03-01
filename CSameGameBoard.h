@@ -31,7 +31,7 @@ public:
 	// Геттеры для получения информации о параметрах игрового поля
 	int GetWidth()   const { return m_width;  }
 	int GetHeight()  const { return m_height; }
-	int GetColumns() const { return m_cols;   }
+	int GetCols()    const { return m_cols;   }
 	int GetRows()    const { return m_rows;   }
 
 	// Метод для удаления игрового поля и освобождения памяти
