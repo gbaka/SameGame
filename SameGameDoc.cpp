@@ -45,6 +45,7 @@ BOOL CSameGameDoc::OnNewDocument()
 
 	// TODO: добавьте код повторной инициализации
 	// (Документы SDI будут повторно использовать этот документ)
+	m_board.SetupBoard();
 
 	return TRUE;
 }

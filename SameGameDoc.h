@@ -5,6 +5,8 @@
 
 #pragma once
 
+#include "CSameGameBoard.h"
+
 
 class CSameGameDoc : public CDocument
 {
@@ -17,6 +19,17 @@ public:
 
 // Операции
 public:
+	// Геттеры для получения информации о параметрах игрового поля
+	COLORREF GetBoardSpace(int p_row, int p_col)
+	{
+		return m_board.GetBoardSpace(p_row, p_col);
+	}
+	void SetupBoard()  { m_board.SetupBoard();        }
+	int GetWidth()     { return m_board.GetWidth();   }
+	int GetHeight()    { return m_board.GetHeight();  }
+	int GetColumns()   { return m_board.GetColumns(); }
+	int GetRows()      { return m_board.GetRows();    }
+	void DeleteBoard() { m_board.DeleteBoard();       }
 
 // Переопределение
 public:
@@ -26,6 +39,8 @@ public:
 	virtual void InitializeSearchContent();
 	virtual void OnDrawThumbnail(CDC& dc, LPRECT lprcBounds);
 #endif // SHARED_HANDLERS
+protected:
+	CSameGameBoard m_board;
 
 // Реализация
 public:
