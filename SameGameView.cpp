@@ -21,6 +21,7 @@
 // CSameGameView
 IMPLEMENT_DYNCREATE(CSameGameView, CView)
 BEGIN_MESSAGE_MAP(CSameGameView, CView)
+	ON_WM_LBUTTONDOWN()
 END_MESSAGE_MAP()
 
 // Конструктор CSameGameView
@@ -145,4 +146,43 @@ void CSameGameView::ResizeWindow()
 
 	// Функция MoveWindow() изменяет размер окна фрейма
 	GetParentFrame()->MoveWindow(&rcWindow);
+}
+
+
+void CSameGameView::OnLButtonDown(UINT nFlags, CPoint point)
+{
+	CSameGameDoc* pDoc = GetDocument();
+	ASSERT_VALID(pDoc);
+	if (!pDoc)
+		return;
+
+	// Получаем индекс строки и столбца элемента, по которому был осуществлен клик мышкой
+	int row = point.y / pDoc->GetHeight();
+	int col = point.x / pDoc->GetWidth();
+
+	// Удаляем блоки из Document
+	int count = pDoc->DeleteBlocks(row, col);
+
+	// Проверяем, было ли удаление блоков
+	if (count > 0)
+	{
+		// Перерисовываем View
+		Invalidate();
+		UpdateWindow();
+
+		// Проверяем, закончилась ли игра
+		if (pDoc->IsGameOver())
+		{
+			// Получаем количество оставшихся блоков
+			int remaining = pDoc->GetRemainingCount();
+			CString message;
+			message.Format(_T("No more moves left\nBlocks remaining: %d"),
+				remaining);
+
+			// Отображаем пользователю результат игры
+			MessageBox(message, _T("Game Over"), MB_OK | MB_ICONINFORMATION);
+		}
+	}
+	// OnLButtonDown по умолчанию
+	CView::OnLButtonDown(nFlags, point);
 }

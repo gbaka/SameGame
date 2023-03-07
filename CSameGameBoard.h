@@ -8,6 +8,9 @@ private:
 	// Список цветов: 0 – это цвет фона, 1-3 – это цвета блоков
 	COLORREF m_arr_colors[4];
 
+	// Количество оставшихся блоков
+	int m_remaining;
+
 	int m_width;
 	int m_height;
 	int m_cols;
@@ -16,6 +19,22 @@ private:
 private:
 	// Функция для создания игрового поля и выделения памяти под него
 	void CreateBoard();
+
+	// Перечисление с вариантами направления (откуда мы пришли) потребуется для
+	// корректной работы функции удаления блоков
+	enum Direction
+	{
+		DIRECTION_UP,
+		DIRECTION_DOWN,
+		DIRECTION_LEFT,
+		DIRECTION_RIGHT
+	};
+
+	// Вспомогательная рекурсивная функция для удаления примыкающих блоков
+	int DeleteNeighborBlocks(int p_row, int p_col, int p_color, Direction p_direction);
+
+	// Функция для сжатия доски после того, как были удалены блоки
+	void CompactBoard();
 
 public:
 	CSameGameBoard();
@@ -33,6 +52,15 @@ public:
 	int GetHeight()  const { return m_height; }
 	int GetCols()    const { return m_cols;   }
 	int GetRows()    const { return m_rows;   }
+
+	// Мы закончили игру?
+	bool IsGameOver() const;
+
+	// Подсчет количества оставшихся блоков
+	int GetRemainingCount() const { return m_remaining; }
+
+	// Функция для удаления всех примыкающих блоков
+	int DeleteBlocks(int row, int col);
 
 	// Метод для удаления игрового поля и освобождения памяти
 	void DeleteBoard();
