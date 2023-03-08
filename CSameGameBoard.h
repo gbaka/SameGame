@@ -54,6 +54,12 @@ public:
 	int GetCols()    const { return m_cols;   }
 	int GetRows()    const { return m_rows;   }
 
+	// Сеттеры для изменения параметров игрового поля
+	void SetWidth(int p_width)   { m_width = (p_width >= 3) ? p_width : 3;    }
+	void SetHeight(int p_height) { m_height = (p_height >= 3) ? p_height : 3; }
+	void SetColumns(int p_cols)  { m_cols = (p_cols >= 5) ? p_cols : 5;       }
+	void SetRows(int p_rows)     { m_rows = (p_rows >= 5) ? p_rows : 5;       }
+
 	// Мы закончили игру?
 	bool IsGameOver() const;
 

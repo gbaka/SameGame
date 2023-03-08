@@ -11,6 +11,8 @@
 
 #include "SameGameDoc.h"
 #include "SameGameView.h"
+#include "OptionDialog.h"
+#include <iostream>
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -31,6 +33,8 @@ BEGIN_MESSAGE_MAP(CSameGameView, CView)
 	ON_UPDATE_COMMAND_UI(ID_LEVEL_6COLORS, &CSameGameView::OnUpdateLevel6colors)
 	ON_COMMAND(ID_LEVEL_7COLORS, &CSameGameView::OnLevel7colors)
 	ON_UPDATE_COMMAND_UI(ID_LEVEL_7COLORS, &CSameGameView::OnUpdateLevel7colors)
+	ON_COMMAND(ID_SETUP_BLOCKCOUNT, &CSameGameView::OnSetupBlockcount)
+	ON_COMMAND(ID_SETUP_BLOCKSIZE, &CSameGameView::OnSetupBlocksize)
 END_MESSAGE_MAP()
 
 // Конструктор CSameGameView
@@ -155,6 +159,20 @@ void CSameGameView::ResizeWindow()
 
 	// Функция MoveWindow() изменяет размер окна фрейма
 	GetParentFrame()->MoveWindow(&rcWindow);
+	 
+	// При изменении размера окна фрейма может изменится и размер верхней панели меню,
+	// т.е. новое newHeightDiff будет отличатся от старого nHeightDiff - в этом случае 
+	// нужно заново изменить размеры окна 
+	GetClientRect(&rcClient);
+	int newHeightDiff = rcWindow.Height() - rcClient.Height();
+	if (newHeightDiff != nHeightDiff)
+	{
+		rcWindow.bottom = rcWindow.top +
+			pDoc->GetHeight() * pDoc->GetRows() + newHeightDiff;
+
+		// Заново меняем размеры окна
+		GetParentFrame()->MoveWindow(&rcWindow);
+	}
 }
 
 
@@ -271,4 +289,72 @@ void CSameGameView::OnLevel7colors()
 void CSameGameView::OnUpdateLevel7colors(CCmdUI* pCmdUI)
 {
 	checkTheBox(pCmdUI, 7);
+}
+
+
+void CSameGameView::OnSetupBlockcount()
+{
+	// Получаем указатель на Document
+	CSameGameDoc* pDoc = GetDocument();
+	ASSERT_VALID(pDoc);
+	if (!pDoc)
+		return;
+
+	// Создаем диалоговое окно
+	COptionDialog dlg(true, this);
+
+	// Устанавливаем параметры строк и столбцов
+	dlg.m_value1 = pDoc->GetRows();
+	dlg.m_value2 = pDoc->GetCols();
+
+	// Отображаем полученное окно
+	if (dlg.DoModal() == IDOK)
+	{
+		// Сначала удаляем игровое поле
+		pDoc->DeleteBoard();
+
+		// Устанавливаем значения, переданные пользователем
+		pDoc->SetRows(dlg.m_value1);
+		pDoc->SetColumns(dlg.m_value2);
+
+		// Обновляем игровое поле
+		pDoc->SetupBoard();
+
+		// Изменяем размеры View
+		ResizeWindow();
+	}
+}
+
+
+void CSameGameView::OnSetupBlocksize()
+{
+	// Указатель на Document
+	CSameGameDoc* pDoc = GetDocument();
+	ASSERT_VALID(pDoc);
+	if (!pDoc)
+		return;
+
+	// Создаем диалоговое окно
+	COptionDialog dlg(false, this);
+
+	// Устанавливаем параметры «Ширины/Высоты»
+	dlg.m_value1 = pDoc->GetWidth();
+	dlg.m_value2 = pDoc->GetHeight();
+
+	// Отображаем окно
+	if (dlg.DoModal() == IDOK)
+	{
+		// Удаляем игровое поле
+		pDoc->DeleteBoard();
+
+		// Считываем введенные пользователем параметры
+		pDoc->SetWidth(dlg.m_value1);
+		pDoc->SetHeight(dlg.m_value2);
+
+		// Обновляем игровую доску
+		pDoc->SetupBoard();
+
+		// Изменяем размеры View
+		ResizeWindow();
+	}
 }
