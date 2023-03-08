@@ -35,6 +35,10 @@ BEGIN_MESSAGE_MAP(CSameGameView, CView)
 	ON_UPDATE_COMMAND_UI(ID_LEVEL_7COLORS, &CSameGameView::OnUpdateLevel7colors)
 	ON_COMMAND(ID_SETUP_BLOCKCOUNT, &CSameGameView::OnSetupBlockcount)
 	ON_COMMAND(ID_SETUP_BLOCKSIZE, &CSameGameView::OnSetupBlocksize)
+	ON_COMMAND(ID_32771, &CSameGameView::On32771)
+	ON_UPDATE_COMMAND_UI(ID_32771, &CSameGameView::OnUpdate32771)
+	ON_COMMAND(ID_EDIT_UNDO, &CSameGameView::OnEditUndo)
+	ON_UPDATE_COMMAND_UI(ID_EDIT_UNDO, &CSameGameView::OnUpdateEditUndo)
 END_MESSAGE_MAP()
 
 // Конструктор CSameGameView
@@ -357,4 +361,60 @@ void CSameGameView::OnSetupBlocksize()
 		// Изменяем размеры View
 		ResizeWindow();
 	}
+}
+
+
+void CSameGameView::On32771()
+{
+	// Получаем указатель на Document
+	CSameGameDoc* pDoc = GetDocument();
+	ASSERT_VALID(pDoc);
+	if (!pDoc)
+		return;
+	pDoc->RedoLast();
+
+	// Перерисовываем View
+	Invalidate();
+	UpdateWindow();
+}
+
+
+void CSameGameView::OnUpdate32771(CCmdUI* pCmdUI)
+{
+	// Сначала получаем указатель на Document
+	CSameGameDoc* pDoc = GetDocument();
+	ASSERT_VALID(pDoc);
+	if (!pDoc)
+		return;
+
+	// Включаем опцию, если она доступна
+	pCmdUI->Enable(pDoc->CanRedo());
+}
+
+
+void CSameGameView::OnEditUndo()
+{
+	// Получаем указатель на Document
+	CSameGameDoc* pDoc = GetDocument();
+	ASSERT_VALID(pDoc);
+	if (!pDoc)
+		return;
+	pDoc->UndoLast();
+
+	// Перерисовываем View
+	Invalidate();
+	UpdateWindow();
+}
+
+
+void CSameGameView::OnUpdateEditUndo(CCmdUI* pCmdUI)
+{
+	// Сначала получаем указатель на Document
+	CSameGameDoc* pDoc = GetDocument();
+	ASSERT_VALID(pDoc);
+	if (!pDoc)
+		return;
+
+	// Включаем опцию, если она доступна
+	pCmdUI->Enable(pDoc->CanUndo());
 }

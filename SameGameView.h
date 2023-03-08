@@ -55,6 +55,13 @@ public:
 	afx_msg void OnUpdateLevel7colors(CCmdUI* pCmdUI);
 	afx_msg void OnSetupBlockcount();
 	afx_msg void OnSetupBlocksize();
+
+	// Функции для меню «Отмена/Повтор»
+	afx_msg void On32771();
+	afx_msg void OnUpdate32771(CCmdUI* pCmdUI);
+	// Функции для обновления меню «Отмена/Повтор»
+	afx_msg void OnEditUndo();
+	afx_msg void OnUpdateEditUndo(CCmdUI* pCmdUI);
 };
 
 #ifndef _DEBUG  // версия отладки в SameGameView.cpp

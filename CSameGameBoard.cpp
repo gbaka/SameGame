@@ -1,21 +1,38 @@
 #include "pch.h"
 #include "CSameGameBoard.h"
 
-CSameGameBoard::CSameGameBoard()
-	: m_arr_board(nullptr),
-	m_cols(15), m_rows(15),
-	m_height(35), m_width(35),
-	m_remaining(0), m_colors(3),
-	m_arr_colors
-	{ 
+COLORREF CSameGameBoard::m_arr_colors[8] {
 	RGB(0,0,0),      RGB(255,0,0),
 	RGB(255,255,64), RGB(0,0,255),
 	RGB(0,255,0),    RGB(0,255,255),
 	RGB(255,0,128),  RGB(0,64,0)
-	}
+};
+
+CSameGameBoard::CSameGameBoard()
+	: m_arr_board(nullptr),
+	m_cols(15), m_rows(15),
+	m_height(35), m_width(35),
+	m_remaining(0), m_colors(3)
 {
 	SetupBoard();
 }
+
+CSameGameBoard::CSameGameBoard(const CSameGameBoard& p_board) :
+	m_cols(p_board.m_cols), m_rows(p_board.m_rows),
+	m_height(p_board.m_height), m_width(p_board.m_width),
+	m_remaining(p_board.m_remaining), m_colors(p_board.m_colors)
+{
+	m_arr_board = nullptr;
+	CreateBoard();
+	for (int row = 0; row < m_rows; ++row)
+	{
+		for (int col = 0; col < m_cols; ++col)
+		{
+			m_arr_board[row][col] = p_board.m_arr_board[row][col];
+		}
+	}
+}
+
 
 CSameGameBoard::~CSameGameBoard()
 {

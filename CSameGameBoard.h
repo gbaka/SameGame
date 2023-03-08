@@ -1,4 +1,5 @@
 #pragma once
+
 class CSameGameBoard
 {
 private:
@@ -6,7 +7,7 @@ private:
 	int** m_arr_board;
 
 	// Список цветов: 0 – это цвет фона, 1-7 – это цвета блоков
-	COLORREF m_arr_colors[8];
+	static COLORREF m_arr_colors[8];
 
 	// Количество оставшихся блоков
 	int m_remaining;
@@ -39,6 +40,9 @@ private:
 
 public:
 	CSameGameBoard();
+
+	// Конструктор глубокого копирования
+	CSameGameBoard(const CSameGameBoard& board);
 
 	~CSameGameBoard();
 
