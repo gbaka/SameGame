@@ -39,6 +39,8 @@ public:
 	int GetRows()      { return m_board.GetRows();    }
 	void DeleteBoard() { m_board.DeleteBoard();       }
 	bool IsGameOver()  { return m_board.IsGameOver(); }
+	void SetNumColors(int p_colors);
+	int GetNumColors();
 	
 // Переопределение
 public:

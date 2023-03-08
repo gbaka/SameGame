@@ -3,13 +3,15 @@
 
 CSameGameBoard::CSameGameBoard()
 	: m_arr_board(nullptr),
-	m_cols(15),   m_rows(15),
+	m_cols(15), m_rows(15),
 	m_height(35), m_width(35),
-	m_remaining(0),
+	m_remaining(0), m_colors(3),
 	m_arr_colors
 	{ 
-	RGB(0,0,0), RGB(255,0,0),
-	RGB(255,255,64), RGB(0,0,255)
+	RGB(0,0,0),      RGB(255,0,0),
+	RGB(255,255,64), RGB(0,0,255),
+	RGB(0,255,0),    RGB(0,255,255),
+	RGB(255,0,128),  RGB(0,64,0)
 	}
 {
 	SetupBoard();
@@ -33,7 +35,7 @@ void CSameGameBoard::SetupBoard()
 	{
 		for (int col = 0; col < m_cols; ++col)
 		{
-			m_arr_board[row][col] = (rand() % 3) + 1;
+			m_arr_board[row][col] = (rand() % m_colors) + 1;
 		}
 	}
 

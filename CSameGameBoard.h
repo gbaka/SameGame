@@ -5,12 +5,13 @@ private:
 	// ”казатель на двумерный массив, характеризующий состо€ние игрового пол€
 	int** m_arr_board;
 
-	// —писок цветов: 0 Ц это цвет фона, 1-3 Ц это цвета блоков
-	COLORREF m_arr_colors[4];
+	// —писок цветов: 0 Ц это цвет фона, 1-7 Ц это цвета блоков
+	COLORREF m_arr_colors[8];
 
 	//  оличество оставшихс€ блоков
 	int m_remaining;
 
+	int m_colors;
 	int m_width;
 	int m_height;
 	int m_cols;
@@ -60,9 +61,17 @@ public:
 	int GetRemainingCount() const { return m_remaining; }
 
 	// ‘ункци€ дл€ удалени€ всех примыкающих блоков
-	int DeleteBlocks(int row, int col);
+	int DeleteBlocks(int p_row, int p_col);
 
 	// ћетод дл€ удалени€ игрового пол€ и освобождени€ пам€ти
 	void DeleteBoard();
+
+	// √етеры и cеттеры дл€ количества цветов
+	int GetNumColors() { return m_colors; }
+
+	void SetNumColors(int p_colors)
+	{
+		m_colors = (p_colors >= 3 && p_colors <= 7) ? p_colors : m_colors;
+	}
 };
 

@@ -50,7 +50,19 @@ BOOL CSameGameDoc::OnNewDocument()
 	return TRUE;
 }
 
+void CSameGameDoc::SetNumColors(int nColors)
+{
+	// Сначала задаем количество цветов...
+	m_board.SetNumColors(nColors);
 
+	// ...затем устанавливаем параметры игровой доски
+	m_board.SetupBoard();
+}
+
+int CSameGameDoc::GetNumColors()
+{
+	return m_board.GetNumColors();
+}
 
 
 // Сериализация CSameGameDoc
