@@ -206,9 +206,10 @@ void CSameGameView::OnLButtonDown(UINT nFlags, CPoint point)
 		{
 			// Получаем количество оставшихся блоков
 			int remaining = pDoc->GetRemainingCount();
+			int score = pDoc->GetRows() * pDoc->GetCols() - remaining;
 			CString message;
-			message.Format(_T("No more moves left\nBlocks remaining: %d"),
-				remaining);
+			message.Format(_T("No more moves left\nBlocks remaining: %d\nYour score: %d"),
+				remaining, score);
 
 			// Отображаем пользователю результат игры
 			MessageBox(message, _T("Game Over"), MB_OK | MB_ICONINFORMATION);
